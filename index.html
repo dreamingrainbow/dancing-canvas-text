@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Canvas!</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <script src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        
+    </head>
+    <body>
+        <canvas id="canvas" width="180" height="200"></canvas>
+        <input id="SayMyName" style="width:100%;text-align:center;" placeholder="Enter your text here!"/><script>
+            const defaultText = 'DreamingRainbow.com';
+            const canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext("2d");
+            let textarea = document.getElementById('SayMyName');
+            function drawCanvas() {
+                var code = textarea.value;
+                var oldVal = '';
+                if (code === '') code = defaultText;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'whitesmoke';
+                ctx.fillRect(3, 3, canvas.width-3, canvas.height-3);
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, 50, 0, Math.PI * 2, false); // Outer circle
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.strokeStyle = 'red';
+                ctx.arc(canvas.width/2, canvas.height/2, 51, 0, Math.PI * 2, false); // Outer circle
+                ctx.stroke();
+                for(let i=0;i<5;i++)
+                {  	
+                    ctx.beginPath();
+                    switch((5+i))
+                    {
+                        case 6:      	
+                            ctx.strokeStyle = 'blue';
+                            ctx.arc(canvas.width/2-25, canvas.height/4+35, 5+i, 0, Math.PI * 2, false); 
+                        break;
+                        case 5:
+                        default:
+                            ctx.strokeStyle = 'red';
+                            ctx.arc(canvas.width/2-25, canvas.height/4+35, 5+i, 0, Math.PI * 2, false);
+                    }
+                    ctx.stroke();
+                }
+                for(let i=0;i<5;i++)
+                {
+                    ctx.beginPath();
+                    switch((5+i))
+                    {
+                        case 6:      	
+                            ctx.strokeStyle = 'blue';
+                            ctx.arc(canvas.width/2+25, canvas.height/4+35, 5+i, 0, Math.PI * 2, false); 
+                            break;
+                        case 5:
+                            default:
+                                ctx.strokeStyle = 'red';
+                                ctx.arc(canvas.width/2+25, canvas.height/4+35, 5+i, 0, Math.PI * 2, false); 
+                    }
+                    ctx.stroke();  
+                }
+                for(let i =0;i<5;i++)
+                {
+                    ctx.beginPath();
+                    if(i == 4)
+                        ctx.strokeStyle = 'blue';
+                    else
+                        ctx.strokeStyle = 'black';
+                    ctx.arc(canvas.width/2, canvas.height/2+2+i, 35, 0, Math.PI , false); 
+                    ctx.stroke();
+                }
+                ctx.fillStyle = 'black';
+                ctx.font = '18px serif-bold';
+                let text = ctx.measureText(code);
+                /* Draw the Text centered in the canvas */
+                ctx.fillText(code,(canvas.width-text.width)/2, 175);
+                /* Loop through the characters and */                
+                const cS = code.split('');
+                var pos = ((canvas.width-text.width)/2);
+                for(var i=0; i<=(cS.length-1); i++ )
+                {
+                    ctx.fillStyle = 'whitesmoke';
+                    var cL = ctx.measureText(code[i]);                    
+                    ctx.fillRect(Math.floor(pos), 161, Math.ceil(cL.width), 18);
+                    if(state % 2 === 0)
+                    {                        
+                        ctx.fillStyle = 'blue';
+                        if(i!==0)
+                            ctx.fillText(cS[i], pos, (175+i));
+                        else
+                            ctx.fillText(cS[i], pos, (175-2));
+                    }
+                    else
+                    {
+                        ctx.fillStyle = 'green';
+                        if(i!==0)
+                            ctx.fillText(cS[i], pos, (175-i));
+                        else
+                            ctx.fillText(cS[i], pos, (175+2));
+                    }                    
+                    pos += cL.width;
+                }
+                state = state ? 0 : 1;
+            }
+            let state = 0;
+            window.setInterval(drawCanvas, 1000);
+            textarea.addEventListener("change",	drawCanvas);
+            window.addEventListener('load', drawCanvas);  
+        </script>
+    </body>
+</html>
