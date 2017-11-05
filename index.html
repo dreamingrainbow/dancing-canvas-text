@@ -19,11 +19,20 @@
             var ctx = canvas.getContext("2d");
             let textarea = document.getElementById('SayMyName');
             function drawCanvas() {
+                let a = ($('body').css('background-color')).split("(")[1].split(")")[0].split(",");
+                    let b = a.map(
+                            (x) => {
+                                       x = parseInt(x).toString(16);
+                                       return (x.length === 1) ? "0"+x : x;
+                                   }
+                           );
+    
+                let myColor = b.join("");
                 var code = textarea.value;
                 var oldVal = '';
                 if (code === '') code = defaultText;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = document.body.style.backgroundColor;
+                ctx.fillStyle = '#'+myColor;
                 ctx.fillRect(3, 3, canvas.width-3, canvas.height-3);
                 ctx.beginPath();
                 ctx.arc(canvas.width/2, canvas.height/2, 50, 0, Math.PI * 2, false); // Outer circle
@@ -84,7 +93,7 @@
                 var pos = ((canvas.width-text.width)/2);
                 for(var i=0; i<=(cS.length-1); i++ )
                 {
-                    ctx.fillStyle = document.body.style.backgroundColor;
+                    ctx.fillStyle = '#'+myColor;
                     var cL = ctx.measureText(code[i]);                    
                     ctx.fillRect(Math.floor(pos), 161, Math.ceil(cL.width), 18);
                     if(state % 2 === 0)
